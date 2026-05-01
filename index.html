@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Automations — AI Chatbots for Nigerian Businesses</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10,10,15,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            z-index: 100;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ff88, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-btn {
+            background: linear-gradient(135deg, #00ff88, #00aaff);
+            color: #000;
+            padding: 10px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            background: radial-gradient(ellipse at top, #001a0f 0%, #0a0a0f 70%);
+        }
+        .badge {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid rgba(0,255,136,0.3);
+            color: #00ff88;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            max-width: 700px;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #00ff88, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.6);
+            max-width: 550px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88, #00aaff);
+            color: #000;
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 16px;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* STATS */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 60px 20px;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
+        }
+        .stat h3 {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ff88, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat p {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* SERVICES */
+        .section {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .section-badge {
+            color: #00ff88;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .section h2 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        .section p {
+            color: rgba(255,255,255,0.5);
+            font-size: 16px;
+            margin-bottom: 50px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: left;
+            transition: border-color 0.3s;
+        }
+        .card:hover { border-color: rgba(0,255,136,0.3); }
+        .card-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+        .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .card p {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        /* PRICING */
+        .pricing {
+            padding: 80px 20px;
+            background: rgba(255,255,255,0.02);
+        }
+        .pricing-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 50px;
+        }
+        .price-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 36px 28px;
+            text-align: left;
+        }
+        .price-card.featured {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.05);
+        }
+        .price-tag {
+            font-size: 13px;
+            color: #00ff88;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .price-card h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .price {
+            font-size: 36px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ff88, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        .price span {
+            font-size: 14px;
+            color: rgba(255,255,255,0.4);
+            -webkit-text-fill-color: rgba(255,255,255,0.4);
+        }
+        .features {
+            list-style: none;
+            margin-bottom: 28px;
+        }
+        .features li {
+            padding: 8px 0;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .features li::before {
+            content: "✓ ";
+            color: #00ff88;
+            font-weight: 700;
+        }
+        .price-btn {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            border-radius: 25px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .price-btn.green {
+            background: linear-gradient(135deg, #00ff88, #00aaff);
+            color: #000;
+        }
+        .price-btn.outline {
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        /* DEMO */
+        .demo-section {
+            padding: 80px 20px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .demo-box {
+            background: rgba(0,255,136,0.05);
+            border: 1px solid rgba(0,255,136,0.2);
+            border-radius: 20px;
+            padding: 48px 32px;
+            margin-top: 40px;
+        }
+        .demo-box h3 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .demo-box p {
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 28px;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 100px 20px;
+            text-align: center;
+            background: radial-gradient(ellipse at bottom, #001a0f 0%, #0a0a0f 70%);
+        }
+        .cta h2 {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 16px;
+        }
+        .cta p {
+            color: rgba(255,255,255,0.5);
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.3);
+            font-size: 13px;
+        }
+
+        @media(max-width: 600px) {
+            .hero h1 { font-size: 32px; }
+            nav { padding: 16px 20px; }
+            .stats { gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="logo">⚡ Atlas Automations</div>
+    <a href="https://wa.me/2349059144435" class="nav-btn">Get Started</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="badge">🇳🇬 #1 AI Chatbot Agency in Nigeria</div>
+    <h1>We Build AI Chatbots That <span>Capture Leads 24/7</span> For Your Business</h1>
+    <p>Never miss a customer again. Our AI chatbots work around the clock — answering questions, capturing leads and booking appointments automatically.</p>
+    <div class="hero-buttons">
+        <a href="https://sunshine-realty-bot-1.onrender.com" class="btn-primary">🤖 See Live Demo</a>
+        <a href="https://wa.me/2349059144435" class="btn-secondary">💬 WhatsApp Us</a>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat">
+        <h3>24/7</h3>
+        <p>Always Online</p>
+    </div>
+    <div class="stat">
+        <h3>100%</h3>
+        <p>Automated</p>
+    </div>
+    <div class="stat">
+        <h3>3x</h3>
+        <p>More Leads Captured</p>
+    </div>
+    <div class="stat">
+        <h3>₦0</h3>
+        <p>Missed Customers</p>
+    </div>
+</div>
+
+<!-- SERVICES -->
+<div class="section">
+    <div class="section-badge">What We Build</div>
+    <h2>AI Solutions For Every Business</h2>
+    <p>We build custom AI chatbots tailored specifically to your business needs</p>
+    <div class="cards">
+        <div class="card">
+            <div class="card-icon">🏠</div>
+            <h3>Real Estate Chatbot</h3>
+            <p>Captures property leads 24/7, answers buyer and tenant questions, books viewings automatically and sends leads directly to your team.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🍔</div>
+            <h3>Restaurant Chatbot</h3>
+            <p>Takes orders, answers menu questions, handles reservations and manages customer inquiries automatically without staff intervention.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🏥</div>
+            <h3>Healthcare Chatbot</h3>
+            <p>Books appointments, answers patient questions, sends reminders and handles basic medical inquiries 24/7 professionally.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🛒</div>
+            <h3>E-commerce Chatbot</h3>
+            <p>Handles order tracking, product questions, returns and customer support automatically — saving you hours every day.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🏨</div>
+            <h3>Hotel Chatbot</h3>
+            <p>Manages room bookings, answers guest questions, handles check-in information and upsells services automatically.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">⚙️</div>
+            <h3>Custom Chatbot</h3>
+            <p>Have a unique business need? We build fully custom AI chatbots tailored exactly to your specific requirements.</p>
+        </div>
+    </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing">
+    <div class="pricing-inner">
+        <div class="section-badge">Pricing</div>
+        <h2>Simple Transparent Pricing</h2>
+        <p style="color:rgba(255,255,255,0.5)">No hidden fees. No surprises. Just results.</p>
+        <div class="pricing-cards">
+            <div class="price-card">
+                <div class="price-tag">Starter</div>
+                <h3>Basic Bot</h3>
+                <div class="price">₦80,000 <span>one time</span></div>
+                <ul class="features">
+                    <li>Simple FAQ chatbot</li>
+                    <li>Lead capture</li>
+                    <li>WhatsApp integration</li>
+                    <li>7 day support</li>
+                </ul>
+                <a href="https://wa.me/2349059144435" class="price-btn outline">Get Started</a>
+            </div>
+            <div class="price-card featured">
+                <div class="price-tag">Most Popular ⭐</div>
+                <h3>Standard Bot</h3>
+                <div class="price">₦150,000 <span>one time</span></div>
+                <ul class="features">
+                    <li>Full AI chatbot</li>
+                    <li>24/7 lead capture</li>
+                    <li>Booking system</li>
+                    <li>Custom branding</li>
+                    <li>30 day support</li>
+                </ul>
+                <a href="https://wa.me/2349059144435" class="price-btn green">Get Started</a>
+            </div>
+            <div class="price-card">
+                <div class="price-tag">Premium</div>
+                <h3>Premium Bot</h3>
+                <div class="price">₦250,000 <span>one time</span></div>
+                <ul class="features">
+                    <li>Everything in Standard</li>
+                    <li>Property management</li>
+                    <li>Follow up automation</li>
+                    <li>Analytics dashboard</li>
+                    <li>60 day support</li>
+                </ul>
+                <a href="https://wa.me/2349059144435" class="price-btn outline">Get Started</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DEMO -->
+<div class="demo-section">
+    <div class="section-badge">Live Demo</div>
+    <h2>See It In Action</h2>
+    <div class="demo-box">
+        <h3>🏠 Real Estate AI Chatbot Demo</h3>
+        <p>Test our live chatbot — type that you want to buy a house and see how it responds like a real agent</p>
+        <a href="https://sunshine-realty-bot-1.onrender.com" class="btn-primary">Launch Live Demo →</a>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+    <h2>Ready To <span style="background:linear-gradient(135deg,#00ff88,#00aaff);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Never Miss A Lead</span> Again?</h2>
+    <p>Join Nigerian businesses already using Atlas Automations AI chatbots</p>
+    <a href="https://wa.me/2349059144435" class="btn-primary">💬 Chat With Us On WhatsApp</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 Atlas Automations — AI Chatbots for Nigerian Businesses 🇳🇬</p>
+</footer>
+
+</body>
+  </html>

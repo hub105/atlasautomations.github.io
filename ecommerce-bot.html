@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopBot - Atlas Automations</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#ea580c;--p2:#fb923c;--y:#fbbf24;--bg:#0f0a00;--card:#1a1000;--dark:#fff8f0;--mid:#d97706;--border:rgba(234,88,12,.2);--soft:rgba(234,88,12,.06)}
+body{background:var(--bg);color:var(--dark);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at top right,rgba(234,88,12,.15),transparent 60%),radial-gradient(ellipse at bottom left,rgba(251,191,36,.08),transparent 60%),var(--bg)}
+.grid{position:fixed;inset:0;z-index:0;opacity:.04;background-image:linear-gradient(rgba(234,88,12,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(234,88,12,.5) 1px,transparent 1px);background-size:40px 40px}
+.wrap{position:relative;z-index:1;width:100%;max-width:470px}
+.header{margin-bottom:20px;animation:up .6s ease}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.top{display:flex;align-items:center;gap:14px}
+.icon{width:54px;height:54px;background:linear-gradient(135deg,var(--p),var(--y));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 10px 30px rgba(234,88,12,.4);flex-shrink:0}
+.title h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff}
+.title p{font-size:11px;color:var(--mid);font-weight:500;letter-spacing:.8px;text-transform:uppercase;margin-top:2px}
+.live{margin-left:auto;font-size:10px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--p),var(--y));padding:5px 12px;border-radius:20px;letter-spacing:.8px;flex-shrink:0}
+.quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.qb{background:transparent;border:1px solid var(--border);color:var(--mid);padding:5px 12px;border-radius:20px;font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;font-weight:500}
+.qb:hover{border-color:var(--p);color:var(--p2);background:var(--soft)}
+.card{background:var(--card);border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px var(--border);animation:up .6s .1s ease both}
+.msgs{height:380px;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.msg{display:flex;gap:10px;align-items:flex-end;animation:msgIn .25s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.av{width:32px;height:32px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.av-b{background:linear-gradient(135deg,var(--p),var(--y));box-shadow:0 4px 12px rgba(234,88,12,.4)}
+.av-u{background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 4px 12px rgba(124,58,237,.3)}
+.bubble{max-width:80%;padding:12px 16px;font-size:13.5px;line-height:1.7}
+.bot .bubble{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:16px;border-bottom-left-radius:4px;color:var(--dark)}
+.user .bubble{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:16px;border-bottom-right-radius:4px}
+.typing{display:flex;gap:5px;align-items:center;padding:2px 0}
+.typing span{width:7px;height:7px;background:var(--p);border-radius:50%;animation:jump .7s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes jump{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}}
+.divider{height:1px;background:var(--border)}
+.inp-row{padding:14px 18px;display:flex;gap:10px;align-items:center}
+.inp-row input{flex:1;border:1px solid var(--border);border-radius:14px;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:.25s;background:rgba(255,255,255,.04);color:var(--dark)}
+.inp-row input:focus{border-color:var(--p);background:rgba(234,88,12,.06);box-shadow:0 0 0 3px rgba(234,88,12,.1)}
+.inp-row input::placeholder{color:rgba(217,119,6,.5)}
+.sbtn{width:44px;height:44px;background:linear-gradient(135deg,var(--p),var(--y));border:none;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;box-shadow:0 4px 14px rgba(234,88,12,.4)}
+.sbtn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(234,88,12,.5)}
+.sbtn svg{width:16px;height:16px;fill:#fff}
+.footer{text-align:center;margin-top:14px;font-size:11px;color:rgba(217,119,6,.6);font-weight:500;animation:up .6s .2s ease both}
+.footer b{color:var(--p2)}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="grid"></div>
+<div class="wrap">
+  <div class="header">
+    <div class="top">
+      <div class="icon">🛍️</div>
+      <div class="title"><h1>ShopBot</h1><p>E-Commerce AI · Atlas Automations</p></div>
+      <div class="live">🟢 LIVE</div>
+    </div>
+    <div class="quick">
+      <button class="qb" onclick="q('Track my order')">📦 Track Order</button>
+      <button class="qb" onclick="q('I want to return something')">↩️ Returns</button>
+      <button class="qb" onclick="q('Recommend products for me')">✨ Recommend</button>
+      <button class="qb" onclick="q('What payment methods do you accept')">💳 Payment</button>
+      <button class="qb" onclick="q('How long is shipping')">🚚 Shipping</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="msgs" id="msgs"></div>
+    <div class="divider"></div>
+    <div class="inp-row">
+      <input id="inp" placeholder="Ask about products, orders, shipping…" onkeydown="if(event.key==='Enter')send()">
+      <button class="sbtn" onclick="send()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
+    </div>
+  </div>
+  <div class="footer">Powered by <b>Atlas Automations</b> · Shop smarter, live better 🛒</div>
+</div>
+<script>
+const KEY="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";
+const SYS=`You are ShopBot, a friendly and energetic e-commerce AI assistant by Atlas Automations. Help customers with: product searches and recommendations, order tracking (use realistic fake order numbers like #AT-38291, say it's "out for delivery" or "processing"), returns and refunds (7-day return policy), shipping times (standard 3-5 days, express 1-2 days), payment methods (cards, bank transfer, mobile money), discount codes (offer "ATLAS10" for 10% off), sizing guides, and FAQs. Be warm and enthusiastic. Keep responses 2-4 sentences. Always try to help the customer complete their purchase.`;
+let hist=[];
+function addMsg(t,w){
+  const m=document.getElementById('msgs');
+  const d=document.createElement('div');d.className=`msg ${w}`;
+  d.innerHTML=`<div class="av ${w==='bot'?'av-b':'av-u'}">${w==='bot'?'🛍️':'👤'}</div><div class="bubble">${t.replace(/\n/g,'<br>')}</div>`;
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function showTyping(){
+  const m=document.getElementById('msgs');const d=document.createElement('div');
+  d.className='msg bot';d.id='typ';
+  d.innerHTML=`<div class="av av-b">🛍️</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function hideTyping(){const t=document.getElementById('typ');if(t)t.remove();}
+async function send(){
+  const inp=document.getElementById('inp');const t=inp.value.trim();if(!t)return;inp.value='';
+  addMsg(t,'user');hist.push({role:'user',content:t});showTyping();
+  try{
+    const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${KEY}`},
+      body:JSON.stringify({model:'llama3-8b-8192',messages:[{role:'system',content:SYS},...hist],max_tokens:200,temperature:.7})
+    });
+    const d=await r.json();hideTyping();
+    const rep=d.choices?.[0]?.message?.content||"Sorry about that! Please try again.";
+    hist.push({role:'assistant',content:rep});addMsg(rep,'bot');
+  }catch(e){hideTyping();addMsg("Oops! Something went wrong. Please try again!","bot");}
+}
+function q(t){document.getElementById('inp').value=t;send();}
+setTimeout(()=>addMsg("Hey! Welcome! 🛍️ I'm ShopBot, your personal shopping assistant by Atlas Automations! I can help you find products, track orders, handle returns, and so much more. What can I do for you today? 🎉","bot"),600);
+</script>
+</body>
+</html>

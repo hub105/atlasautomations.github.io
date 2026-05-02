@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Concierge - Atlas Automations</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--g:#c9a84c;--g2:#e8cc85;--bg:#080810;--card:#0f0f1a;--card2:#151522;--dark:#e8e0d0;--mid:#8a8070;--border:rgba(201,168,76,.15);--soft:rgba(201,168,76,.06)}
+body{background:var(--bg);color:var(--dark);font-family:'Montserrat',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 30%,rgba(201,168,76,.07),transparent 60%),radial-gradient(ellipse at 80% 70%,rgba(100,80,180,.06),transparent 60%),var(--bg)}
+.stars{position:fixed;inset:0;z-index:0}
+.star{position:absolute;width:1.5px;height:1.5px;background:var(--g);border-radius:50%;opacity:0;animation:tw var(--d) var(--dl) infinite}
+@keyframes tw{0%,100%{opacity:0}50%{opacity:.5}}
+.wrap{position:relative;z-index:1;width:100%;max-width:470px}
+.header{margin-bottom:20px;text-align:center;animation:up .8s ease}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.crown{font-size:32px;margin-bottom:8px;filter:drop-shadow(0 0 14px var(--g))}
+.brand{font-size:10px;letter-spacing:6px;color:var(--g);text-transform:uppercase;font-weight:500;margin-bottom:6px}
+.title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;letter-spacing:3px;color:#fff}
+.title em{font-style:italic;color:var(--g2)}
+.sub{font-size:10px;letter-spacing:4px;color:var(--mid);text-transform:uppercase;margin-top:6px}
+.card{background:var(--card);border-radius:4px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.7),0 0 0 1px var(--border),inset 0 1px 0 rgba(201,168,76,.08);animation:up .8s .1s ease both}
+.msgs{height:370px;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:2px}
+.msgs::-webkit-scrollbar-thumb{background:var(--g);opacity:.3;border-radius:2px}
+.msg{display:flex;gap:10px;align-items:flex-end;animation:msgIn .3s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.av-b{background:linear-gradient(135deg,#1e1a08,#2e2a12);border:1px solid rgba(201,168,76,.35)}
+.av-u{background:linear-gradient(135deg,#1a1a2e,#2a2a42);border:1px solid rgba(100,100,200,.3)}
+.bubble{max-width:80%;padding:12px 16px;font-size:13px;line-height:1.75;font-weight:300}
+.bot .bubble{background:var(--soft);border:1px solid var(--border);border-radius:3px;color:var(--dark)}
+.user .bubble{background:linear-gradient(135deg,rgba(80,70,120,.4),rgba(60,55,100,.3));border:1px solid rgba(120,110,180,.2);color:#c8c8e8;border-radius:3px}
+.typing{display:flex;gap:5px;align-items:center;padding:2px 0}
+.typing span{width:6px;height:6px;background:var(--g);border-radius:50%;animation:jump .8s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes jump{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:.25;margin:0 24px}
+.quick{padding:14px 20px;display:flex;flex-wrap:wrap;gap:7px;background:var(--card2)}
+.qb{background:transparent;border:1px solid rgba(201,168,76,.2);color:var(--mid);padding:6px 12px;border-radius:2px;font-size:10.5px;font-family:'Montserrat',sans-serif;cursor:pointer;transition:.25s;letter-spacing:.4px}
+.qb:hover{border-color:var(--g);color:var(--g);background:var(--soft)}
+.inp-row{padding:14px 18px;display:flex;gap:10px;align-items:center;background:rgba(0,0,0,.2)}
+.inp-row input{flex:1;border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:12px 16px;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:300;outline:none;transition:.25s;background:rgba(255,255,255,.03);color:var(--dark)}
+.inp-row input:focus{border-color:rgba(201,168,76,.5);background:var(--soft)}
+.inp-row input::placeholder{color:var(--mid)}
+.sbtn{width:42px;height:42px;background:linear-gradient(135deg,var(--g),#a07830);border:none;border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;box-shadow:0 4px 14px rgba(201,168,76,.3)}
+.sbtn:hover{transform:scale(1.05);box-shadow:0 6px 18px rgba(201,168,76,.45)}
+.sbtn svg{width:15px;height:15px;fill:#0a0a10}
+.footer{text-align:center;margin-top:16px;font-size:10px;letter-spacing:3px;color:var(--mid);text-transform:uppercase;animation:up .8s .2s ease both}
+.footer b{color:var(--g)}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="stars" id="stars"></div>
+<div class="wrap">
+  <div class="header">
+    <div class="crown">♛</div>
+    <div class="brand">Atlas Automations</div>
+    <div class="title">Hotel <em>Concierge</em></div>
+    <div class="sub">AI · Available 24 / 7</div>
+  </div>
+  <div class="card">
+    <div class="msgs" id="msgs"></div>
+    <div class="divider"></div>
+    <div class="quick">
+      <button class="qb" onclick="q('Room availability and rates')">🛏 Rooms</button>
+      <button class="qb" onclick="q('Restaurant and dining options')">🍽 Dining</button>
+      <button class="qb" onclick="q('Spa and wellness services')">💆 Spa</button>
+      <button class="qb" onclick="q('Check-in and check-out times')">🕐 Times</button>
+      <button class="qb" onclick="q('Airport transfer service')">🚗 Transfer</button>
+    </div>
+    <div class="inp-row">
+      <input id="inp" placeholder="Ask your concierge anything…" onkeydown="if(event.key==='Enter')send()">
+      <button class="sbtn" onclick="send()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
+    </div>
+  </div>
+  <div class="footer">Powered by <b>Atlas Automations</b> · Luxury service, reimagined</div>
+</div>
+<script>
+const KEY="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";
+const SYS=`You are Aurelius, an elite luxury hotel AI concierge by Atlas Automations for The Grand Atlas Hotel. Be warm, sophisticated, and impeccably helpful. Assist guests with room bookings (give realistic luxury prices in ₦, e.g. Deluxe Room ₦85,000/night, Suite ₦250,000/night), restaurant reservations, spa appointments, local recommendations, check-in (2PM) / check-out (12PM), amenities, airport transfers, and all hotel services. Keep responses elegant and concise (2-4 sentences). Use refined language. Always end with a warm offer to assist further.`;
+let hist=[];
+function addMsg(t,w){
+  const m=document.getElementById('msgs');
+  const d=document.createElement('div');d.className=`msg ${w}`;
+  d.innerHTML=`<div class="av ${w==='bot'?'av-b':'av-u'}">${w==='bot'?'♛':'✦'}</div><div class="bubble">${t.replace(/\n/g,'<br>')}</div>`;
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function showTyping(){
+  const m=document.getElementById('msgs');const d=document.createElement('div');
+  d.className='msg bot';d.id='typ';
+  d.innerHTML=`<div class="av av-b">♛</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function hideTyping(){const t=document.getElementById('typ');if(t)t.remove();}
+async function send(){
+  const inp=document.getElementById('inp');const t=inp.value.trim();if(!t)return;inp.value='';
+  addMsg(t,'user');hist.push({role:'user',content:t});showTyping();
+  try{
+    const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${KEY}`},
+      body:JSON.stringify({model:'llama3-8b-8192',messages:[{role:'system',content:SYS},...hist],max_tokens:200,temperature:.7})
+    });
+    const d=await r.json();hideTyping();
+    const rep=d.choices?.[0]?.message?.content||"My sincerest apologies — please try again momentarily.";
+    hist.push({role:'assistant',content:rep});addMsg(rep,'bot');
+  }catch(e){hideTyping();addMsg("I do apologize for the inconvenience — please try again.","bot");}
+}
+function q(t){document.getElementById('inp').value=t;send();}
+// Stars
+const s=document.getElementById('stars');
+for(let i=0;i<70;i++){const el=document.createElement('div');el.className='star';el.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2+Math.random()*5}s;--dl:${Math.random()*5}s`;s.appendChild(el);}
+setTimeout(()=>addMsg("Good evening. I'm Aurelius, your personal concierge at The Grand Atlas Hotel. Whether you wish to reserve a suite, book a dining experience, or explore our world-class amenities — I am entirely at your service. How may I assist you today?","bot"),600);
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropBot - Atlas Automations</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#0ea5e9;--p2:#38bdf8;--teal:#14b8a6;--bg:#040d14;--card:#071018;--card2:#0a1520;--dark:#e2f4ff;--mid:#7ab8d4;--border:rgba(14,165,233,.18);--soft:rgba(14,165,233,.07)}
+body{background:var(--bg);color:var(--dark);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at top left,rgba(14,165,233,.1),transparent 55%),radial-gradient(ellipse at bottom right,rgba(20,184,166,.07),transparent 55%),var(--bg)}
+.lines{position:fixed;inset:0;z-index:0;opacity:.03;background-image:linear-gradient(rgba(14,165,233,1) 1px,transparent 1px);background-size:100% 60px}
+.wrap{position:relative;z-index:1;width:100%;max-width:470px}
+.header{margin-bottom:20px;animation:up .6s ease}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.top{display:flex;align-items:center;gap:14px}
+.icon{width:54px;height:54px;background:linear-gradient(135deg,var(--p),var(--teal));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 10px 28px rgba(14,165,233,.4);flex-shrink:0}
+.title h1{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:#fff}
+.title p{font-size:11px;color:var(--mid);font-weight:500;letter-spacing:.8px;text-transform:uppercase;margin-top:2px}
+.badge{margin-left:auto;font-size:10px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--p),var(--teal));padding:5px 12px;border-radius:20px;flex-shrink:0;letter-spacing:.5px}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.fb{background:transparent;border:1px solid var(--border);color:var(--mid);padding:5px 12px;border-radius:20px;font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:.2s;font-weight:500}
+.fb:hover{border-color:var(--p);color:var(--p2);background:var(--soft)}
+.card{background:var(--card);border-radius:20px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 0 1px var(--border);animation:up .6s .1s ease both}
+.msgs{height:370px;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.msg{display:flex;gap:10px;align-items:flex-end;animation:msgIn .25s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse}
+.av{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.av-b{background:linear-gradient(135deg,var(--p),var(--teal));box-shadow:0 4px 12px rgba(14,165,233,.35)}
+.av-u{background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 4px 12px rgba(124,58,237,.3)}
+.bubble{max-width:80%;padding:12px 16px;font-size:13.5px;line-height:1.7}
+.bot .bubble{background:var(--soft);border:1px solid var(--border);border-radius:16px;border-bottom-left-radius:4px;color:var(--dark)}
+.user .bubble{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;border-radius:16px;border-bottom-right-radius:4px}
+.typing{display:flex;gap:5px;align-items:center;padding:2px 0}
+.typing span{width:7px;height:7px;background:var(--p);border-radius:50%;animation:jump .7s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes jump{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}}
+.divider{height:1px;background:var(--border)}
+.inp-row{padding:14px 18px;display:flex;gap:10px;align-items:center}
+.inp-row input{flex:1;border:1px solid var(--border);border-radius:14px;padding:12px 16px;font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:.25s;background:rgba(14,165,233,.04);color:var(--dark)}
+.inp-row input:focus{border-color:var(--p);background:var(--soft);box-shadow:0 0 0 3px rgba(14,165,233,.1)}
+.inp-row input::placeholder{color:rgba(122,184,212,.45)}
+.sbtn{width:44px;height:44px;background:linear-gradient(135deg,var(--p),var(--teal));border:none;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;box-shadow:0 4px 14px rgba(14,165,233,.4)}
+.sbtn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(14,165,233,.5)}
+.sbtn svg{width:16px;height:16px;fill:#fff}
+.footer{text-align:center;margin-top:14px;font-size:11px;color:rgba(122,184,212,.5);font-weight:500;animation:up .6s .2s ease both}
+.footer b{color:var(--p2)}
+</style>
+</head>
+<body>
+<div class="bg"></div><div class="lines"></div>
+<div class="wrap">
+  <div class="header">
+    <div class="top">
+      <div class="icon">🏠</div>
+      <div class="title"><h1>PropBot</h1><p>Real Estate AI · Atlas Automations</p></div>
+      <div class="badge">⚡ LIVE</div>
+    </div>
+    <div class="filters">
+      <button class="fb" onclick="q('I want to buy a house')">🏡 Buy Property</button>
+      <button class="fb" onclick="q('I want to rent an apartment')">🔑 Rent</button>
+      <button class="fb" onclick="q('I want to sell my property')">💰 Sell</button>
+      <button class="fb" onclick="q('Property prices in Lagos')">📊 Prices</button>
+      <button class="fb" onclick="q('How does mortgage work')">🏦 Mortgage</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="msgs" id="msgs"></div>
+    <div class="divider"></div>
+    <div class="inp-row">
+      <input id="inp" placeholder="Search properties, ask about prices…" onkeydown="if(event.key==='Enter')send()">
+      <button class="sbtn" onclick="send()"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
+    </div>
+  </div>
+  <div class="footer">Powered by <b>Atlas Automations</b> · Find your dream property 🏠</div>
+</div>
+<script>
+const KEY="gsk_ 2GuntGGUIoSoYNeRZ684WGdyb3FYRLIOIAwQMi2liCtFF9v33MYe";
+const SYS=`You are PropBot, a professional real estate AI assistant by Atlas Automations. Help clients with: buying properties (give realistic Nigerian property prices e.g. 2-bedroom Lagos flat ₦15M-₦40M, Abuja land ₦8M-₦25M), renting apartments (e.g. 1-bedroom Lagos ₦800,000/year), selling properties, mortgage advice, property investment tips, neighbourhood information across Nigeria, legal documentation process, and property inspection tips. Be professional, knowledgeable and helpful. Keep responses 2-4 sentences. Always encourage them to schedule a viewing or speak with an agent.`;
+let hist=[];
+function addMsg(t,w){
+  const m=document.getElementById('msgs');
+  const d=document.createElement('div');d.className=`msg ${w}`;
+  d.innerHTML=`<div class="av ${w==='bot'?'av-b':'av-u'}">${w==='bot'?'🏠':'👤'}</div><div class="bubble">${t.replace(/\n/g,'<br>')}</div>`;
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function showTyping(){
+  const m=document.getElementById('msgs');const d=document.createElement('div');
+  d.className='msg bot';d.id='typ';
+  d.innerHTML=`<div class="av av-b">🏠</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  m.appendChild(d);m.scrollTop=m.scrollHeight;
+}
+function hideTyping(){const t=document.getElementById('typ');if(t)t.remove();}
+async function send(){
+  const inp=document.getElementById('inp');const t=inp.value.trim();if(!t)return;inp.value='';
+  addMsg(t,'user');hist.push({role:'user',content:t});showTyping();
+  try{
+    const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${KEY}`},
+      body:JSON.stringify({model:'llama3-8b-8192',messages:[{role:'system',content:SYS},...hist],max_tokens:220,temperature:.7})
+    });
+    const d=await r.json();hideTyping();
+    const rep=d.choices?.[0]?.message?.content||"Sorry, please try again!";
+    hist.push({role:'assistant',content:rep});addMsg(rep,'bot');
+  }catch(e){hideTyping();addMsg("Something went wrong. Please try again!","bot");}
+}
+function q(t){document.getElementById('inp').value=t;send();}
+setTimeout(()=>addMsg("Welcome to PropBot! 🏠 I'm your AI real estate assistant powered by Atlas Automations. Whether you're looking to buy, rent, sell, or invest in property across Nigeria — I'm here to guide you every step of the way. What are you looking for today?","bot"),600);
+</script>
+</body>
+</html>
